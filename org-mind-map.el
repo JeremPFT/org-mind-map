@@ -226,10 +226,12 @@ For a list of value attributes, see here: https://graphviz.gitlab.io/_pages/doc/
   :group 'org-mind-map)
 
 (defcustom org-mind-map-node-formats nil
-  "Assoc list of (NAME . FN) pairs where NAME is a value for the :OMM-NODE-FMT property 
-of a node/headline, and FN is a function which outputs a format string to be placed after the 
-node name (e.g. \"[label='Node1',color='red']\").
-The function FN should take the following 5 arguments which can be used to construct the format: 
+  "Assoc list of (NAME . FN) pairs where NAME is a value for the
+:OMM-NODE-FMT property of a node/headline, and FN is a function
+which outputs a format string to be placed after the node name
+(e.g. \"[label='Node1',color='red']\").
+The function FN should take the following 5 arguments which can
+be used to construct the format:
 
 TITLE = the label string for the node
 TAGS = a list of org tags for the current node
@@ -237,22 +239,26 @@ COLOR = the contents of the OMM-COLOR property for the current node
 HM = a hash map of colors
 EL = an org element obtained from `org-element-map'
 
-Note: the :OMM-NODE-FMT property is inherited by children of the node/headline where it is defined."
+Note: the :OMM-NODE-FMT property is inherited by children of the
+node/headline where it is defined."
   :type '(alist :key-type (string :tag "              Name")
 		:value-type (function :tag "Format function"))
   :group 'org-mind-map)
 
 (defcustom org-mind-map-edge-formats nil
-  "Assoc list of (NAME . FN) pairs where NAME is a value for the :OMM-EDGE-FMT property
-of a node/headline, and FN is a function which outputs a format string to be placed after an 
-edge (e.g. \"[style=dotted]\"). 
-The function FN should take the following 2 arguments which can be used to construct the format: 
+  "Assoc list of (NAME . FN) pairs where NAME is a value for the
+:OMM-EDGE-FMT property of a node/headline, and FN is a function
+which outputs a format string to be placed after an edge
+(e.g. \"[style=dotted]\").
+The function FN should take the following 2 arguments which can
+be used to construct the format:
 
 HM = a hash map of colors
 EL = an org element obtained from `org-element-map'
 
-Note: the :OMM-EDGE-FMT property affects edges leading to the node at which it is defined, and 
-is inherited by children of that node/headline."
+Note: the :OMM-EDGE-FMT property affects edges leading to the node
+at which it is defined, and is inherited by children of that
+ node/headline."
   :type '(alist :key-type (string :tag "              Name")
 		:value-type (function :tag "Format function"))
   :group 'org-mind-map)
@@ -264,24 +270,26 @@ is inherited by children of that node/headline."
 
 (defcustom org-mind-map-reserved-colors nil
   "List of colors that will not be used for coloring tags.
-These colors will be excluded when random tag colors are chosen by `org-mind-map-rgb'
-so that you can use them for other things.
-Each color should be in hexadecimal form, e.g: \"#e3cfbc\", where the consecutive pairs
-of hexdigits indicate levels of red, green and blue respectively.
-It is not necessary to include any colors with levels below 7d, as these are not used
-for creating random tag colors."
+These colors will be excluded when random tag colors are chosen
+by `org-mind-map-rgb' so that you can use them for other things.
+Each color should be in hexadecimal form, e.g: \"#e3cfbc\", where
+the consecutive pairs of hexdigits indicate levels of red, green
+and blue respectively.
+It is not necessary to include any colors with levels below 7d,
+as these are not used for creating random tag colors."
   :type '(repeat string)
   :group 'org-mind-map)
 
 (defcustom org-mind-map-tag-colors nil
   "An alist of (TAG . COLOR) pairs for choosing colors for tags.
-Any tags not listed here will be colored with randomly selected colors that dont
-clash with those in `org-mind-map-reserved-colors'.
-Each color should be in hexadecimal form, e.g: \"#e3cfbc\", where the consecutive pairs
-of hexdigits indicate levels of red, green and blue respectively.
+Any tags not listed here will be colored with randomly selected
+colors that dont clash with those in `org-mind-map-reserved-colors'.
+Each color should be in hexadecimal form, e.g: \"#e3cfbc\", where
+the consecutive pairs of hexdigits indicate levels of red, green
+and blue respectively.
 
-Note: you can also set tag colors by altering the hashmap passed as an argument to functions
-defined in `org-mind-map-node-formats'."
+Note: you can also set tag colors by altering the hashmap passed as
+an argument to functions defined in `org-mind-map-node-formats'."
   :type '(alist :key-type (string :tag "     Tag") :value-type (string :tag "Color"))
   :group 'org-mind-map)
 
@@ -407,7 +415,7 @@ If there is a column summary value for the property that has recently be calcula
 
 
 (defun org-mind-map-write-tags (hm el &optional edgep)
-  "Use HM as the hash-map of colors and takes an element EL and extracts the title and tags.  
+  "Use HM as the hash-map of colors and takes an element EL and extracts the title and tags.
 Then, formats the titles and tags so as to be usable within DOT's graphviz language."
   (let* ((ts (org-element-property :title el))
 	 (wrapped-title (org-mind-map-wrap-lines (if (listp ts) (first ts) ts)))
@@ -489,7 +497,7 @@ Then, formats the titles and tags so as to be usable within DOT's graphviz langu
 
 (defun org-mind-map-get-links (hm)
   "Make a list of links with the headline they are within and
-their destination. Pass hashmap arg HM mapping tags to colors 
+their destination. Pass hashmap arg HM mapping tags to colors
 in order to keep the tag colors consistent across calls."
   (org-element-map (org-element-parse-buffer 'object)
       'link
@@ -561,7 +569,8 @@ Dont return any of the colors listed in the optional arg EXCEPTIONS."
     hm))
 
 (defun org-mind-map-data (&optional linksp)
-  "Create graph & tag legend of all directed pairs of headlines for constructing the digraph.
+  "Create graph & tag legend of all directed pairs of headlines for
+constructing the digraph.
 If LINKSP is non-nil include graph edges for org links."
   (let* ((hm (org-mind-map-tags org-mind-map-reserved-colors))
 	 (output
@@ -637,7 +646,7 @@ Open FILENAME according to value of `org-mind-map-display'."
 	    (doc-view-mode (doc-view-fit-page-to-window)))))))
 
 (defun org-mind-map-write-named (name &optional debug linksp)
-  "Create a directed graph output based on the org tree in the current buffer, with name NAME.  
+  "Create a directed graph output based on the org tree in the current buffer, with name NAME.
 To customize, see the org-mind-map group.
 If DEBUG is non-nil, then print the dot command to the *Messages* buffer,
 and print the dotfile to the *Messages* buffer or to a file if DEBUG is a filename.
@@ -712,27 +721,40 @@ If called with prefix arg (or PROMPTP is non-nil), then call `org-mind-map-write
 
 ;;;###autoload
 (defmacro org-mind-map-make-node-fn (name doc props &optional shape color other)
-  "Create a function org-mind-map-NAME-node for use with :OMM-NODE-FMT writing node properties.
-The created function should be added to `org-mind-map-node-formats' and the associated string
-can be used as the :OMM-NODE-FMT for a tree. 
+  "Create a function org-mind-map-NAME-node for use with :OMM-NODE-FMT
+writing node properties.
+
+The created function should be added to `org-mind-map-node-formats'
+and the associated string can be used as the :OMM-NODE-FMT for a tree.
+
 Document the function with the DOC arg.
-PROPS is a list of either property & format string pairs, or individual property names,
-which will be placed in each node, e.g: ((\"PROB\" \"probability=%s\") \"COST\"). 
-For property names with no format string, \"%s=%s\" will be used with the property name and value.
 
-The node shape and background color can be specified with the optional SHAPE and COLOR arguments, 
-and any other attributes (e.g. \"fontsize=30\") can be specified with the OTHER argument.
-Each of these arguments can be either a string or a form which is evaluated for each node, 
-and returns a string.
+PROPS is a list of either property & format string pairs, or
+individual property names, which will be placed in each node,
+e.g: ((\"PROB\" \"probability=%s\") \"COST\").
 
-Example: (org-mind-map-make-node-fn decisiontree \"Draw decision tree\" (\"COST\" (\"NOTES\" \"Notes: %s\")) nil
-			   (cond ((equal (org-mind-map-get-property :todo-keyword el) \"ACTION\") \"red\")
-				 ((equal (org-mind-map-get-property :todo-keyword el) \"STATE\") \"yellow\")
-				 ((equal (org-mind-map-get-property :todo-keyword el) \"DECISION\") \"green\")))
+For property names with no format string, \"%s=%s\" will be used
+with the property name and value.
 
-You could put this code in your emacs startup file (e.g. ~/.emacs) and then add to `org-mind-map-node-formats' 
-the pair '(\"decisiontree\" . org-mind-map-decisiontree-node), and use \":OMM-NODE-FMT: decisiontree\" as a
-tree property."
+The node shape and background color can be specified with the
+optional SHAPE and COLOR arguments, and any other
+attributes (e.g. \"fontsize=30\") can be specified with the OTHER
+argument.
+
+Each of these arguments can be either a string or a form which is
+evaluated for each node, and returns a string.
+
+Example:
+(org-mind-map-make-node-fn
+ decisiontree \"Draw decision tree\" (\"COST\" (\"NOTES\" \"Notes: %s\")) nil
+ (cond ((equal (org-mind-map-get-property :todo-keyword el) \"ACTION\") \"red\")
+       ((equal (org-mind-map-get-property :todo-keyword el) \"STATE\") \"yellow\")
+       ((equal (org-mind-map-get-property :todo-keyword el) \"DECISION\") \"green\")))
+
+You could put this code in your emacs startup file (e.g. ~/.emacs) and then add to
+`org-mind-map-node-formats' the pair '(\"decisiontree\" . org-mind-map-decisiontree-node),
+ and use \":OMM-NODE-FMT: decisiontree\" as a tree property."
+
   `(defun ,(intern (concat "org-mind-map-" (symbol-name name) "-node"))
        (title tags color hm el)
      ,doc
@@ -773,17 +795,17 @@ tree property."
   "Create a function org-mind-map-write-NAME for writing edge properties which can be used for :OMM-EDGE-FMT.
 Document the function with the DOC arg.
 PROPS is a list of either property & format string pairs, or individual property names,
-which will concatenated and used to label the edges, e.g: ((\"PROB\" \"probability=%s\") \"COST\"). 
+which will concatenated and used to label the edges, e.g: ((\"PROB\" \"probability=%s\") \"COST\").
 For property names with no format string \"%s=%s\" will be used with the property name and value.
 
 The edge style and color can be specified with the optional STYLE and COLOR arguments,
 and any other attributes (e.g. \"fontsize=30\") can be specified with the OTHER argument.
-Each of these arguments can be either a string or a form which is evaluated for each node, 
+Each of these arguments can be either a string or a form which is evaluated for each node,
 and returns a string.
 
 Example: (org-mind-map-make-edge-fn decisiontree \"Draw decision tree\" (\"PROB\"))
 
-You could put this code in your emacs startup file (e.g. ~/.emacs) and then add to `org-mind-map-edge-formats' 
+You could put this code in your emacs startup file (e.g. ~/.emacs) and then add to `org-mind-map-edge-formats'
 the pair '(\"decisiontree\" . org-mind-map-decisiontree-edge), and use \":OMM-EDGE-FMT: decisiontree\" as a
 tree property."
   `(defun ,(intern (concat "org-mind-map-" (symbol-name name) "-edge"))
