@@ -216,7 +216,7 @@ For a list of value attributes, see here: https://graphviz.gitlab.io/_pages/doc/
 						("resolution" . "100")
 						("nodesep" . "0.75")
 						("overlap" . "false")
-						("spline" . "true")
+						("splines" . "true")
 						("rankdir" . "LR"))
   "Alist of default graph attributes and values.
 Each item in the alist should be a cons cell of the form (ATTRIB . VALUE)
