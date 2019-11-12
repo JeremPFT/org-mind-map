@@ -356,7 +356,7 @@ an argument to functions defined in `org-mind-map-node-formats'."
 Label node with TITLE and background COLOR, and write TAGS (a list of tag names)
 into boxes underneath, using associated colors in hashmap HM.
 The EL argument is not used, but is needed for compatibility."
-  (concat "[label=<<table>"
+  (concat "[label=<<table BORDER='0' CELLBORDER='1' CELLSPACING='0' CELLPADDING='4'>"
 	  (if (> (length tags) 0)
 	      (concat "<tr><td colspan=\"" (int-to-string (length tags)) "\" ")
 	    "<tr><td")
@@ -366,8 +366,12 @@ The EL argument is not used, but is needed for compatibility."
 	      (concat
 	       "<tr>" (mapconcat (-partial 'org-mind-map-add-color hm) tags "") "</tr>"))
 	  (if (> (length content) 0)
-	      (concat
-	       "<tr><td BALIGN=\"LEFT\" ALIGN=\"LEFT\">" content "</td></tr>")
+	      (concat "<tr><td "
+	       (if (> (length tags) 0)
+                   (concat "colspan=\""
+                           (int-to-string (length tags)) "\" ")
+                 "")
+               "BALIGN=\"LEFT\" ALIGN=\"LEFT\">" content "</td></tr>")
 	    )
 
 	  (if (> (length images) 0)
@@ -436,7 +440,7 @@ Then, formats the titles and tags so as to be usable within DOT's graphviz langu
 			     (lambda (x)
 			       (message "Inline image: %s" (org-export-inline-image-p x))
 			       (if (org-export-inline-image-p x)
-				   (concat 
+				   (concat
 				    "<tr><td fixedsize='TRUE' height='100' width='100'>" "<IMG src='"
 				    (org-element-property :path x)
 				    "'/>"
