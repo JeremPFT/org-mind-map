@@ -1,0 +1,10 @@
+* This is an example org-mode tree
+:PROPERTIES:
+:ID:       da287393-a3e8-46c2-b94c-470f9c1bcea4
+:END:
+Root content.
+** Branch A
+:PROPERTIES:
+:ID:       99d687bd-2082-4515-ab64-a8e8945859ed
+:END:
+Branch A content.
