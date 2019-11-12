@@ -92,10 +92,10 @@
 ;;    An alist of (TAG . COLOR) pairs for choosing colors for tags.
 ;;    default = nil
 ;;  `org-mind-map-include-text'
-;;    A boolean indicating whether our not to include paragraph text in body of nodes.
+;;    A boolean indicating whether or not to include paragraph text in body of nodes.
 ;;    default = t
 ;;  `org-mind-map-include-images'
-;;    A boolean indicating whether our not to include images in body of nodes.
+;;    A boolean indicating whether or not to include images in body of nodes.
 ;;    default = t
 
 
@@ -286,14 +286,14 @@ defined in `org-mind-map-node-formats'."
   :group 'org-mind-map)
 
 (defcustom org-mind-map-include-text t
-  "A boolean indicating whether our not to include paragraph text in body of nodes.
+  "A boolean indicating whether or not to include paragraph text in body of nodes.
    default = t"
   :type 'boolean
   :group 'org-mind-map
   )
 
 (defcustom org-mind-map-include-images t
-  "A boolean indicating whether our not to include paragraph text in body of nodes.
+  "A boolean indicating whether or not to include paragraph text in body of nodes.
    default = t"
   :type 'boolean
   :group 'org-mind-map
