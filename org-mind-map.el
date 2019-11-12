@@ -312,7 +312,7 @@ defined in `org-mind-map-node-formats'."
 
 (defun org-mind-map-wrap (s l)
   (let* ((s2 (org-mind-map-do-wrap (split-string s " ") l)))
-    (mapconcat 'identity s2 "<br></br>")))
+    (mapconcat 'identity s2 "<br/>")))
 
 (defun org-mind-map-wrap-lines (s)
   "Wraps a string S so that it can never be more than ORG-MIND-MAP-WRAP-LINE-LENGTH characters long."
@@ -326,7 +326,7 @@ defined in `org-mind-map-node-formats'."
 (defun org-mind-map-wrap-legend-lines (s)
   "Wraps a string S so that it can never be more than ORG-MIND-MAP-WRAP-LEGEND-LINE-LENGTH characters long."
   (let* ((s2 (org-mind-map-do-wrap (split-string s " ") org-mind-map-wrap-legend-line-length)))
-    (mapconcat 'identity s2 "<br></br>")))
+    (mapconcat 'identity s2 "<br/>")))
 
 (defun org-mind-map-dot-node-name (s)
   "Make string S formatted to be usable within dot node names."
@@ -448,7 +448,7 @@ Then, formats the titles and tags so as to be usable within DOT's graphviz langu
 				(string-trim
 				 (substring-no-properties
 				  (car (org-element-contents x)))))))
-			   "<br></br><br></br>"))
+			   "<br/><br/>"))
 	    nil))
 	 )
 	(if edgep (funcall (or (cdr (assoc fmt org-mind-map-edge-formats))
